@@ -5,8 +5,14 @@ const app = express();
 
 app.use(function cache(req, res, next) {
   if (process.env.NODE_ENV != "dev") {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.set("Cache-Control", "public, max-age=300, s-maxage=5000");
   }
+  next();
+});
+
+app.options("*", function (req, res, next) {
   next();
 });
 
